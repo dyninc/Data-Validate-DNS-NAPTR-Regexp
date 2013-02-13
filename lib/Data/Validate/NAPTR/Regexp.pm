@@ -95,8 +95,14 @@ sub is_naptr_regexp {
 
 	$delim = qr/\Q$delim\E/;
 
-	# Convert double-backslashes to \0 for easy parsing
+	# Convert double-backslashes to \0 for easy parsing.
 	$string =~ s/\\\\/\0/g;
+
+	# Now anything preceeded by a '\' is an escape sequence. If it's a 
+	# digit, it must be followed by 3 digits with a total of less than 256 
+	# (ASCII). If it's not a digit, we just take it for what it is.
+
+	# In $replace, a null byte followed by a digit is a backref.
 
 	unless ($string =~ /^
 		(.*) (?<!\\) $delim
@@ -117,9 +123,27 @@ sub is_naptr_regexp {
 
 			return 0;
 		}
+
+		my @escapes = $f =~ /\\(\d{1,3})/g;
+
+		for my $esc (@escapes) {
+			if (length($esc) != 3) {
+				_set_error($self, "Bad escape sequence '\\$esc'");
+
+				return 0;
+			} elsif ($esc > 255) {
+				_set_error($self, "Escape sequence out of range '\\$esc'");
+
+				return 0;
+			}
+		}
 	}
 
-	# Convert those nulls back to double backslashes
+	# Count backrefs in replace and make sure it matches up
+	my %brefs = map { $_ => 1 } $replace =~ /\0([0-9])/g;
+
+	# And so ends our fun with escapes. Convert those nulls back to double 
+	# backslashes
 	$_ =~ s/\0/\\\\/g for ($find, $replace, $flags);
 
 	my $rflags = $REG_EXTENDED;
@@ -143,9 +167,6 @@ sub is_naptr_regexp {
 
 		return 0;
 	}
-
-	# Count backrefs in replace and make sure it matches up
-	my %brefs = map { $_ => 1 } $replace =~ /(?<!\\)\\([0-9])/g;
 
 	if ($brefs{0}) {
 		_set_error($self, "Bad backref '0'");

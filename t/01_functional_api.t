@@ -8,12 +8,16 @@ use Data::Validate::NAPTR::Regexp qw(is_naptr_regexp naptr_regexp_error);
 
 # Good tests
 my %good = (
-	qw(^test^test^)              => 3,
+	qw(^t\\097est^test^)         => 3,
+	qw(^t\\097^test^)            => 3,
+	qw(^t\\bah^test^)            => 3,
+	qw(^test^\\097^)             => 3,
+	qw(^test^\\098a^)            => 3,
 	qw(^test\\\\\\\\^bo\\\\b^)   => 3,
 	qw(^test^bob^i)              => 3,
-	qw(^test(cat)^bob\1^)        => 3,
-	qw(!bird(cat)(dog)!bob\2\1!) => 3,
-	qw(!bird(cat)(dog)!bob\1!)   => 3,
+	qw(^test(cat)^bob\\\\1^)        => 3,
+	qw(!bird(cat)(dog)!bob\\\\2\\\\1!) => 3,
+	qw(!bird(cat)(dog)!bob\\\\1!)   => 3,
 	qw(^test\^this^cat\^dog^i)   => 3,
 	qw(:test:nonsense\b\a:)      => 3,
 	qw(^((){10}){10}/^cat^)      => 3,
@@ -42,11 +46,15 @@ my %bad = (
 	qw(9test9bob9)        => qr/Delimiter \(9\) cannot be a flag, digit or null$/,
         qw(itestibobi)        => qr/Delimiter \(i\) cannot be a flag, digit or null$/,
 	qw(\test\bob\\)       => qr/Delimiter \(\\\) cannot be a flag, digit or null$/,
-	qw(^test(cat)^bob\2^) => qr/More backrefs in replacement than captures in match$/,
+	qw(^test(cat)^bob\\\\2^) => qr/More backrefs in replacement than captures in match$/,
 	qw(^test^bob^if)      => qr/Bad flag: f$/,
 	qw(^tes\(cat^bob^)    => qr/Bad regex: .+$/,
-	qw(^test^\0^)         => qr/Bad backref '0'$/,
+	qw(^test^\\\\0^)         => qr/Bad backref '0'$/,
 	'^' . ('x' x 250) . '^234^'  => qr/Must be less than 256 bytes$/,
+	qw(^test\\25a^bah^)   => qr/Bad escape sequence '\\25'$/,
+	qw(^test^\\25b^)      => qr/Bad escape sequence '\\25'$/,
+	qw(^test\\256b^bah^)   => qr/Escape sequence out of range '\\256'/,
+	qw(^test^bah\\256a^)   => qr/Escape sequence out of range '\\256'/,
 );
 
 for my $c (keys %bad) {
