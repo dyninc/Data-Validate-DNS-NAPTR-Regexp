@@ -257,7 +257,7 @@ RFC 2915 - L<https://tools.ietf.org/html/rfc2915>
 
 =head1 AUTHOR
 
-Matthew Horsfall (alh) - <mhorsfall@dyn.com>
+Matthew Horsfall (alh) - <wolfsage@gmail.com>
 
 =head1 CREDITS
 
