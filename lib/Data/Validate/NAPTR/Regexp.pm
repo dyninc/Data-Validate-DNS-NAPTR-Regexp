@@ -130,10 +130,10 @@ sub is_naptr_regexp {
 	}
 
 	# Validate regex
-	my $reg;
+	my ($nsub, $err) = _regcomp($find, $rflags);
 
-	unless (eval { $reg = _regcomp($find, $rflags) }) {
-		_set_error($self, "Bad regex: $@");
+	if (!defined $nsub) {
+		_set_error($self, "Bad regex: $err");
 
 		return 0;
 	}
@@ -150,7 +150,7 @@ sub is_naptr_regexp {
 	my ($highest) = sort {$a <=> $b} keys %brefs;
 	$highest ||= 0;
 
-	if ($reg->re_nsub < $highest) {
+	if ($nsub < $highest) {
 		_set_error($self, "More backrefs in replacement than captures in match");
 
 		return 0;

@@ -34,19 +34,19 @@ is(is_naptr_regexp(''), 2, "Empty string is a valid regexp")
 
 # Bad tests
 my %bad = (
-	"\0test\0test\0"      => qr/Contains null bytes/,
-	qw(^test^)            => qr/Bad syntax, missing replace\/end delimiter/,
-	qw(^test^bob)         => qr/Bad syntax, missing replace\/end delimiter/,
-	qw(^test^bob^i^i)     => qr/Extra delimiters/,
-	qw(0test0bob0)        => qr/Delimiter \(0\) cannot be a flag, digit or null/,
-	qw(1test1bob1)        => qr/Delimiter \(1\) cannot be a flag, digit or null/,
-	qw(9test9bob9)        => qr/Delimiter \(9\) cannot be a flag, digit or null/,
-        qw(itestibobi)        => qr/Delimiter \(i\) cannot be a flag, digit or null/,
-	qw(\test\bob\\)       => qr/Delimiter \(\\\) cannot be a flag, digit or null/,
-	qw(^test(cat)^bob\2^) => qr/More backrefs in replacement than captures in match/,
-	qw(^test^bob^if)      => qr/Bad flag: f/,
-	qw(^tes\(cat^bob^)    => qr/Bad regex: parentheses not balanced/,
-	qw(^test^\0^)         => qr/Bad backref '0'/,
+	"\0test\0test\0"      => qr/Contains null bytes$/,
+	qw(^test^)            => qr/Bad syntax, missing replace\/end delimiter$/,
+	qw(^test^bob)         => qr/Bad syntax, missing replace\/end delimiter$/,
+	qw(^test^bob^i^i)     => qr/Extra delimiters$/,
+	qw(0test0bob0)        => qr/Delimiter \(0\) cannot be a flag, digit or null$/,
+	qw(1test1bob1)        => qr/Delimiter \(1\) cannot be a flag, digit or null$/,
+	qw(9test9bob9)        => qr/Delimiter \(9\) cannot be a flag, digit or null$/,
+        qw(itestibobi)        => qr/Delimiter \(i\) cannot be a flag, digit or null$/,
+	qw(\test\bob\\)       => qr/Delimiter \(\\\) cannot be a flag, digit or null$/,
+	qw(^test(cat)^bob\2^) => qr/More backrefs in replacement than captures in match$/,
+	qw(^test^bob^if)      => qr/Bad flag: f$/,
+	qw(^tes\(cat^bob^)    => qr/Bad regex: parentheses not balanced$/,
+	qw(^test^\0^)         => qr/Bad backref '0'$/,
 );
 
 for my $c (keys %bad) {

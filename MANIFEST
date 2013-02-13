@@ -10,4 +10,3 @@ ppport.h
 t/00_use.t
 t/01_functional_api.t
 t/02_object_api.t
-typemap
