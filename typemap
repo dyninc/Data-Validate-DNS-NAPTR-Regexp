@@ -1,0 +1,2 @@
+TYPEMAP
+regex_t * T_PTROBJ
