@@ -6,7 +6,6 @@ use warnings;
 use Test::More;
 use Data::Validate::NAPTR::Regexp qw(naptr_regexp_error);
 
-no warnings 'uninitialized';
 # Good tests
 my %good = (
 	qw(^test^test^)              => 3,
@@ -18,8 +17,8 @@ my %good = (
 	qw(^test\^this^cat\^dog^i)   => 3,
 	qw(:test:nonsense\b\a:)      => 3,
 	qw(^((){10}){10}/^cat^)      => 3,
+	'^' . ('x' x 250) . '^34^'  => 3,
 );
-use warnings 'uninitialized';
 
 for my $c (keys %good) {
 	my $v = Data::Validate::NAPTR::Regexp->new();
@@ -51,6 +50,7 @@ my %bad = (
 	qw(^test^bob^if)      => qr/Bad flag: f$/,
 	qw(^tes\(cat^bob^)    => qr/Bad regex: .+$/,
 	qw(^test^\0^)         => qr/Bad backref '0'$/,
+	'^' . ('x' x 250) . '^234^'  => qr/Must be less than 256 bytes$/,
 );
 
 for my $c (keys %bad) {

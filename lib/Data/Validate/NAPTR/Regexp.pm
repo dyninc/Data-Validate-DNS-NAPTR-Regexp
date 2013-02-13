@@ -69,6 +69,12 @@ sub is_naptr_regexp {
 		return 1;
 	}
 
+	if (length $string > 255) {
+		_set_error($self, "Must be less than 256 bytes");
+
+		return 0;
+	}
+
 	if (!($string =~ s/^(.)//)) {
 		return 2;
 	}
