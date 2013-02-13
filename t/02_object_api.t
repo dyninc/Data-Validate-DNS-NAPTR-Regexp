@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Data::Validate::NAPTR::Regexp qw(naptr_regexp_error);
+use Data::Validate::DNS::NAPTR::Regexp;
 
 # Good tests
 my %good = (
@@ -25,13 +25,13 @@ my %good = (
 );
 
 for my $c (keys %good) {
-	my $v = Data::Validate::NAPTR::Regexp->new();
+	my $v = Data::Validate::DNS::NAPTR::Regexp->new();
 
 	is($v->is_naptr_regexp($c), $good{$c}, (defined $c ? "'$c'" : "'<undef>'") . " is a valid regexp")
 		or diag("Got error: " . $v->error());
 }
 
-my $v = Data::Validate::NAPTR::Regexp->new();
+my $v = Data::Validate::DNS::NAPTR::Regexp->new();
 
 is($v->is_naptr_regexp(undef), 1, "undef string is a valid regexp")
 	or diag("Got error: " . naptr_regexp_error());
@@ -62,7 +62,7 @@ my %bad = (
 );
 
 for my $c (keys %bad) {
-	my $v = Data::Validate::NAPTR::Regexp->new();
+	my $v = Data::Validate::DNS::NAPTR::Regexp->new();
 
 	ok(!$v->is_naptr_regexp($c), "$c is not a valid regexp");
 	like($v->error(), $bad{$c}, "Got expected error $bad{$c}");

@@ -1,4 +1,4 @@
-package Data::Validate::NAPTR::Regexp;
+package Data::Validate::DNS::NAPTR::Regexp;
 
 our $VERSION = '0.001';
 
@@ -8,7 +8,7 @@ use strict;
 use warnings;
 
 require XSLoader;
-XSLoader::load('Data::Validate::NAPTR::Regexp', $VERSION);
+XSLoader::load('Data::Validate::DNS::NAPTR::Regexp', $VERSION);
 
 require Exporter;
 
@@ -191,31 +191,41 @@ __END__
 
 =head1 NAME
 
-Data::Validate::NAPTR::Regexp - Validate the NAPTR Regexp field per RFC 2915
+Data::Validate::DNS::NAPTR::Regexp - Validate the NAPTR Regexp field per RFC 2915
 
 =head1 SYNOPSIS
 
 Functional API (uses globals!!):
 
-  use Data::Validate::NAPTR::Regexp;
+  use Data::Validate::DNS::NAPTR::Regexp;
 
-  if (is_naptr_regexp('!test(something)!\1test!i')) {
-    print "Regexp is okay!";
+  my $regexp = '!test(something)!\\\\1!i';
+
+  if (is_naptr_regexp($regexp)) {
+    print "Regexp '$regexp' is okay!"; 
   } else {
-    print "Regexp is invalid: " . naptr_regexp_error();
+    print "Regexp '$regexp' is invalid: " . naptr_regexp_error();
   }
+
+  # Output:
+  # Regexp '!test(something)!\\1!i' is okay!
 
 Object API:
 
-  use Data::Validate::NAPTR::Regexp ();
+  use Data::Validate::DNS::NAPTR::Regexp ();
 
-  my $v = Data::Validate::NAPTR::Regexp->new();
+  my $v = Data::Validate::DNS::NAPTR::Regexp->new();
 
-  if ($v->is_naptr_regexp('!test(something)!\1test!i')) {
-    print "Regexp is okay!";
+  my $regexp = '!test(something)!\\\\1!i';
+
+  if ($v->is_naptr_regexp($regexp)) {
+    print "Regexp '$regexp' is okay!";
   } else {
-    print "Regexp is invalid: " . $v->naptr_regexp_error();
+    print "Regexp '$regexp' is invalid: " . $v->naptr_regexp_error();
   }
+
+  # Output:
+  # Regexp '!test(something)!\\1!i' is okay!
 
   # $v->error() also works
 
@@ -223,6 +233,9 @@ Object API:
 
 This module validates the Regexp field in the NAPTR DNS Resource Record as 
 defined by RFC 2915.
+
+It assumes that the data is in master file format and suitable for use in a ISC 
+BIND zone file.
 
 =head1 EXPORT
 
@@ -256,7 +269,7 @@ This is the preferred method as the functional API uses globals.
 
 =head3 new
 
-  Data::Validate::NAPTR::Regexp->new(%args)
+  Data::Validate::DNS::NAPTR::Regexp->new(%args)
 
 Currently no C<%args> are available but this may change in the future.
 

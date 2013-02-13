@@ -5,6 +5,6 @@ use warnings;
 
 use Test::More;
 
-BEGIN { use_ok('Data::Validate::NAPTR::Regexp') };
+BEGIN { use_ok('Data::Validate::DNS::NAPTR::Regexp') };
 
 done_testing;

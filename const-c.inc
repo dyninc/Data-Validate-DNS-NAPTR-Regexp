@@ -40,11 +40,11 @@ my $types = {map {($_, 1)} qw(IV)};
 my @names = (qw(REG_EXTENDED REG_ICASE REG_NEWLINE));
 
 print constant_types(), "\n"; # macro defs
-foreach (C_constant ("Data::Validate::NAPTR::Regexp", 'constant', 'IV', $types, undef, 3, @names) ) {
+foreach (C_constant ("Data::Validate::DNS::NAPTR::Regexp", 'constant', 'IV', $types, undef, 3, @names) ) {
     print $_, "\n"; # C constant subs
 }
 print "\n#### XS Section:\n";
-print XS_constant ("Data::Validate::NAPTR::Regexp", $types);
+print XS_constant ("Data::Validate::DNS::NAPTR::Regexp", $types);
 __END__
    */
 

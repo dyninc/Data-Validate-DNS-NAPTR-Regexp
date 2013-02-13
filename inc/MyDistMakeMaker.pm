@@ -17,7 +17,7 @@ my @constants = qw(
 eval 'use ExtUtils::Constant';
 if( not $@ ) {
     ExtUtils::Constant::WriteConstants(
-   NAME    => 'Data::Validate::NAPTR::Regexp',
+   NAME    => 'Data::Validate::DNS::NAPTR::Regexp',
    NAMES   => \@constants,
    DEFAULT_TYPE => 'IV',
    C_FILE  => 'const-c.inc',

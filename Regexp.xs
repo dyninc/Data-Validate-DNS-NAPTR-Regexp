@@ -5,7 +5,7 @@
 #include "ppport.h"
 #include "const-c.inc"
 
-MODULE = Data::Validate::NAPTR::Regexp		PACKAGE = Data::Validate::NAPTR::Regexp
+MODULE = Data::Validate::DNS::NAPTR::Regexp PACKAGE = Data::Validate::DNS::NAPTR::Regexp
 
 INCLUDE: const-xs.inc
 PROTOTYPES: Enable

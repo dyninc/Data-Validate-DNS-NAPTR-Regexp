@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Data::Validate::NAPTR::Regexp qw(is_naptr_regexp naptr_regexp_error);
+use Data::Validate::DNS::NAPTR::Regexp;
 
 # Good tests
 my %good = (
