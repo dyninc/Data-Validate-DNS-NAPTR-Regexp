@@ -49,7 +49,7 @@ my %bad = (
 	qw(\test\bob\\)       => qr/Delimiter \(\\\) cannot be a flag, digit or null$/,
 	qw(^test(cat)^bob\2^) => qr/More backrefs in replacement than captures in match$/,
 	qw(^test^bob^if)      => qr/Bad flag: f$/,
-	qw(^tes\(cat^bob^)    => qr/Bad regex: parentheses not balanced$/,
+	qw(^tes\(cat^bob^)    => qr/Bad regex: .+$/,
 	qw(^test^\0^)         => qr/Bad backref '0'$/,
 );
 
