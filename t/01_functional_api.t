@@ -22,6 +22,7 @@ my %good = (
 	qw(:test:nonsense\b\a:)      => 3,
 	qw(^((){10}){10}/^cat^)      => 3,
 	'^' . ('x' x 250) . '^34^'  => 3,
+	qw(^test(cat)^\\\\\\\\9^)   => 3, # This is not a backref
 );
 
 for my $c (keys %good) {
