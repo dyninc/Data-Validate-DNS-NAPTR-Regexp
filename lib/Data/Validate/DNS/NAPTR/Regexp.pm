@@ -1,6 +1,6 @@
 package Data::Validate::DNS::NAPTR::Regexp;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 use 5.008000;
 
