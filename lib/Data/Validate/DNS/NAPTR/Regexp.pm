@@ -63,19 +63,23 @@ sub is_naptr_regexp {
 		$self = undef;
 
 		$last_error = undef;
+	} else {
+		$self->{error} = undef;
 	}
 
 	if (!defined $string) {
 		return 1;
 	}
 
-	if (length $string > 255) {
-		_set_error($self, "Must be less than 256 bytes");
+	# Convert from master-file format
+	$string = _cstring_from_text($self, $string);
 
+	if (!defined $string) {
 		return 0;
 	}
 
-	if (!($string =~ s/^(.)//)) {
+	# Empty string okay
+	if (length $string == 0) {
 		return 2;
 	}
 
@@ -84,6 +88,8 @@ sub is_naptr_regexp {
 
 		return 0;
 	}
+
+	$string =~ s/^(.)//;
 
 	my $delim = $1;
 
@@ -98,9 +104,8 @@ sub is_naptr_regexp {
 	# Convert double-backslashes to \0 for easy parsing.
 	$string =~ s/\\\\/\0/g;
 
-	# Now anything preceeded by a '\' is an escape sequence. If it's a 
-	# digit, it must be followed by 3 digits with a total of less than 256 
-	# (ASCII). If it's not a digit, we just take it for what it is.
+	# Now anything preceeded by a '\' is an escape sequence and can be 
+	# ignored.
 
 	unless ($string =~ /^
 		(.*) (?<!\\) $delim
@@ -121,34 +126,10 @@ sub is_naptr_regexp {
 
 			return 0;
 		}
-
-		my @escapes = $f =~ /\\(\d{1,3})/g;
-
-		for my $esc (@escapes) {
-			if (length($esc) != 3) {
-				_set_error($self, "Bad escape sequence '\\$esc'");
-
-				return 0;
-			} elsif ($esc > 255) {
-				_set_error($self, "Escape sequence out of range '\\$esc'");
-
-				return 0;
-			}
-		}
 	}
 
 	# Count backrefs in replace and make sure it matches up.
-	# Since we're counting backrefs in the master-file format, \0 is our
-	# escape character (we converted literal escapes (\\\\) above).
-	# So now \0\0 is a literal '\', and \0\d is a backref. To count 
-	# backrefs, we have to kill off the literals first.
-
-	# I should switch to character parsing. It'd be more clear... -- alh
-	my $temp_replace = $replace;
-
-	$temp_replace =~ s/\0\0//g;
-
-	my %brefs = map { $_ => 1 } $temp_replace =~ /\0([0-9])/g;
+	my %brefs = map { $_ => 1 } $replace=~ /\\([0-9])/g;
 
 	# And so ends our fun with escapes. Convert those nulls back to double 
 	# backslashes
@@ -192,6 +173,51 @@ sub is_naptr_regexp {
 	}
 
 	return 3;
+}
+
+# Convert master-file character string to data
+sub _cstring_from_text {
+	my ($self, $string) = @_;
+
+	my $ret;
+
+	# look for escape sequences, one at a time.
+	# $1 is data before escape, $2 is \ if found, $3 is what's escaped
+	while ($string =~ /\G(.*?)(\\(\d{1,3}|.)?)?/g) {
+		$ret .= $1;
+
+		# Got an escape
+		if ($2) {
+			my $seq = $3;
+
+			if (!defined $seq) {
+				_set_error($self, 'Trailing backslash');
+
+				return;
+			}
+
+			# Some byte? Take it
+			if ($seq !~ /\d/) {
+				$ret .= $seq;
+			} elsif ($seq !~ /\d\d\d/) {
+				_set_error($self, "Bad escape sequence '\\$seq'");
+
+				return;
+			} elsif ($seq > 255) {
+				_set_error($self, "Escape sequence out of range '\\$seq'");
+
+				return;
+			}
+		}
+	}
+
+	if (length $ret > 255) {
+		_set_error($self, "Must be less than 256 bytes");
+
+		return;
+	}
+
+	return $ret;
 }
 
 1;

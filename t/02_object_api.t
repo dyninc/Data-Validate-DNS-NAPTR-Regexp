@@ -31,8 +31,8 @@ for my $t (BadTests->tests) {
 	my $v = Data::Validate::DNS::NAPTR::Regexp->new();
 
 	ok(!$v->is_naptr_regexp($regexp), "$regexp is not a valid regexp");
-	like($v->error(), $expect, "Got expected error $expect");
-	like($v->naptr_regexp_error(), $expect, "Got expected error $expect");
+	like($v->error(), $expect, "Got expected error $expect for $regexp");
+	like($v->naptr_regexp_error(), $expect, "Got expected error $expect for $regexp");
 }
 
 done_testing;
