@@ -71,6 +71,12 @@ sub is_naptr_regexp {
 		return 1;
 	}
 
+	if ($string =~ /\n/) {
+		_set_error($self, "Contains new-lines");
+
+		return 0;
+	}
+
 	# Convert from master-file format
 	$string = _cstring_from_text($self, $string);
 

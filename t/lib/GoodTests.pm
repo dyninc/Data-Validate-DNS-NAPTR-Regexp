@@ -21,6 +21,7 @@ my @good = split(/\n/, <<'EOF');
 ^((){10}){10}/^cat^		3 # More complex regex
 ^test(cat)^\\\\9^		3 # Escaped escape, not backref
 \^test(cat)^bird^		3 # Escaped char, not a \ delimiter
+ test(cat) bird\\1 i		3 # Space as delim
 EOF
 
 push @good, '^' . ('x' x 250) . '^34^' . "\t" . '3 # Max length';

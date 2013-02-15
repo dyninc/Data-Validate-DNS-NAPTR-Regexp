@@ -29,10 +29,17 @@ push @bad, '^' . ('x' x 250) . '^234^' . "\t" . '/Must be less than 256 bytes$/'
 
 push @bad, "\0test\0test\0" . "\t" . '/Contains null bytes$/';
 
+push @bad, "^test\nwhat^cat^" . "\t" . '/Contains new-lines/';
+
+push @bad, "^testwhat^cat^\n" . "\t" . '/Contains new-lines/';
+
+push @bad, "^testwhat^cat^ " . "\t" . "/Bad flag: \\s/";
+
+
 my @ret;
 
 for my $b (@bad) {
-	my ($test, $expect) = $b =~ /(^.*?)\t+(.*)$/;
+	my ($test, $expect) = $b =~ /(^.*?)\t+(.*)$/s;
 
 	unless ($test && $expect) {
 		die "Couldn't parse $b\n";
