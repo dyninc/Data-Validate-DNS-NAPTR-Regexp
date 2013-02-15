@@ -233,7 +233,13 @@ Functional API (uses globals!!):
 
   use Data::Validate::DNS::NAPTR::Regexp;
 
-  my $regexp = '!test(something)!\\\\1!i';
+  # Using <<'EOF' to mirror master-file format exactly
+  my $regexp = <<'EOF';
+  !test(something)!\\1!i
+  EOF
+
+  # Kill newline
+  $regexp =~ s/\n//;
 
   if (is_naptr_regexp($regexp)) {
     print "Regexp '$regexp' is okay!"; 
@@ -250,7 +256,13 @@ Object API:
 
   my $v = Data::Validate::DNS::NAPTR::Regexp->new();
 
-  my $regexp = '!test(something)!\\\\1!i';
+  # Using <<'EOF' to mirror master-file format exactly
+  my $regexp = <<'EOF';
+  !test(something)!\\1!i
+  EOF
+
+  # Kill newline
+  $regexp =~ s/\n//;
 
   if ($v->is_naptr_regexp($regexp)) {
     print "Regexp '$regexp' is okay!";
@@ -273,7 +285,7 @@ BIND zone file.
 
 =head1 EXPORT
 
-By default, L</is_naptr_regexp> and L<naptr_regexp_error> will be exported. If 
+By default, L</is_naptr_regexp> and L</naptr_regexp_error> will be exported. If 
 you're using the L</OBJECT API>, importing an empty list is recommended.
 
 =head1 FUNCTIONAL API
@@ -324,6 +336,35 @@ See L</naptr_regexp_error> above.
   $v->error();
 
 See L</naptr_regexp_error> above.
+
+=head1 NOTES
+
+This lib validates the data in master-file format. In RFC 2915, there are 
+examples like: 
+
+  IN NAPTR 100   10   ""  ""  "/urn:cid:.+@([^\.]+\.)(.*)$/\2/i"    .
+
+To enter the above into a master-file, all backslashes must be escaped, and so 
+it would look like this:
+
+  IN NAPTR 100   10   ""  ""  "/urn:cid:.+@([^\\.]+\\.)(.*)$/\\2/i"    .
+
+To enter this manually into a Perl script and check it, you'd have to escape all 
+backslashes AGAIN:
+
+  my $regexp = '/urn:cid:.+@([^\\\\.]+\\\\.)(.*)$/\\\\2/i';
+
+Or, if you use a here doc, you can enter it just as you would if putting it in a 
+zone file (but you must clean up the newline):
+
+  my $regexp = <<'EOF';
+  /urn:cid:.+@([^\\.]+\\.)(.*)$/\\2/i
+  EOF
+
+  $regexp =~ s/\n//;
+
+The single-quote characters around "EOF" above are necessary or the backslashes 
+will be interpolated!
 
 =head1 SEE ALSO
 

@@ -1,5 +1,9 @@
 {{$NEXT}}
 
+  * Github #3 - Parse character-strings properly
+
+  * Doc updates - examples/POD fixes
+
 0.002 Thu, Feb 14, 2013
 
   * Github #2 - Parse backrefs properly
