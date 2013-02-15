@@ -1,8 +1,12 @@
 {{$NEXT}}
 
-  * Github #3 - Parse character-strings properly
+0.003 Fri, Feb 15, 2013
+
+  * Don't allow new-lines
 
   * Doc updates - examples/POD fixes
+
+  * Github #3 - Parse character-strings properly
 
 0.002 Thu, Feb 14, 2013
 
