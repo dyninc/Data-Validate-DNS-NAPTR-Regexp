@@ -213,6 +213,9 @@ sub _cstring_from_text {
 				_set_error($self, "Escape sequence out of range '\\$seq'");
 
 				return;
+			} else {
+				# Good, take it
+				$ret .= chr($seq);
 			}
 		}
 	}

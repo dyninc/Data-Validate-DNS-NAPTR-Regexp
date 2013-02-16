@@ -22,11 +22,15 @@ my @good = split(/\n/, <<'EOF');
 ^test(cat)^\\\\9^		3 # Escaped escape, not backref
 \^test(cat)^bird^		3 # Escaped char, not a \ delimiter
  test(cat) bird\\1 i		3 # Space as delim
+\097beh\097meh\097i		3 # Escape sequence translated to proper byte 
+£what£hi£i			3 # Weird characters allowed
+^what£what£^£what£hi£i^i	3 # Weird characters allowed
+
 EOF
 
 push @good, '^' . ('x' x 250) . '^34^' . "\t" . '3 # Max length';
 
-push @good, '^' . ('x' x 249) . '\012' . '^34^' . "\t" . '3 # Max length with escapes';
+push @good, '^' . ('x' x 249) . '\\012' . '^34^' . "\t" . '3 # Max length with escapes';
 
 # Empty
 push @good, '' . "\t" . "2 # Empty regex";
