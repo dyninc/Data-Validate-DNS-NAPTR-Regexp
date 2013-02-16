@@ -1,5 +1,9 @@
 {{$NEXT}}
 
+0.004 Sat, Feb 16, 2013
+
+  * Fix length checking (wasn't converting \(\d\d\d) to copied string)
+
 0.003 Fri, Feb 15, 2013
 
   * Don't allow new-lines
