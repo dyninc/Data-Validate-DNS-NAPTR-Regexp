@@ -1,5 +1,9 @@
 {{$NEXT}}
 
+0.005 Tue, Feb 19, 2013
+
+  * Don't allow unescaped double quotes
+
 0.004 Sat, Feb 16, 2013
 
   * Fix length checking (wasn't converting \(\d\d\d) to copied string)
