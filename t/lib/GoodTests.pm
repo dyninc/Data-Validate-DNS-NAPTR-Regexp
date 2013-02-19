@@ -25,7 +25,8 @@ my @good = split(/\n/, <<'EOF');
 \097beh\097meh\097i		3 # Escape sequence translated to proper byte 
 £what£hi£i			3 # Weird characters allowed
 ^what£what£^£what£hi£i^i	3 # Weird characters allowed
-
+^what\"the\"^hi^		3 # Quotes allowed if escaped
+^what\\\"the\\\"^hi^		3 # Quotes with literal escapes before
 EOF
 
 push @good, '^' . ('x' x 250) . '^34^' . "\t" . '3 # Max length';

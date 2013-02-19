@@ -24,6 +24,7 @@ itestibobi		/Delimiter \(i\) cannot be a flag, digit or null$/
 ^test^bah\256a^		/Escape sequence out of range '\\256'/
 ^test^bah^\		/Trailing backslash/
 \000test\000test\000	/Contains null bytes/
+^test"hi"^meh^		/Unescaped double quote/
 EOF
 
 push @bad, '^' . ('x' x 250) . '^234^' . "\t" . '/Must be less than 256 bytes$/';

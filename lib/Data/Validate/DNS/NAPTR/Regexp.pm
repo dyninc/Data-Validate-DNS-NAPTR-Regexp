@@ -190,7 +190,16 @@ sub _cstring_from_text {
 	# look for escape sequences, one at a time.
 	# $1 is data before escape, $2 is \ if found, $3 is what's escaped
 	while ($string =~ /\G(.*?)(\\(\d{1,3}|.)?)?/g) {
-		$ret .= $1;
+		my $before = $1;
+
+		# Unescaped double quote?
+		if ($before =~ /"/) {
+			_set_error($self, 'Unescaped double quote');
+
+			return;
+		}
+
+		$ret .= $before;
 
 		# Got an escape
 		if ($2) {
