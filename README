@@ -12,10 +12,6 @@ To install this module type the following:
 
 DEPENDENCIES
 
-This module requires these other modules and libraries:
-
-  regex.h
-
 COPYRIGHT AND LICENCE
 
 Copyright (C) 2013 Dyn, Inc.
