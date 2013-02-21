@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.006 Thu, Feb 21, 2013
+
   * Remove reliance on regcomp.h for portability
 
   * Update docs to mention RFC 3403 (which obsoleted RFC 2915)
