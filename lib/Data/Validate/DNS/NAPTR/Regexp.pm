@@ -243,7 +243,8 @@ __END__
 
 =head1 NAME
 
-Data::Validate::DNS::NAPTR::Regexp - Validate the NAPTR Regexp field per RFC 2915
+Data::Validate::DNS::NAPTR::Regexp - Validate the NAPTR Regexp field per RFC 
+2915 / RFC 3403 Section 4
 
 =head1 SYNOPSIS
 
@@ -296,7 +297,7 @@ Object API:
 =head1 DESCRIPTION
 
 This module validates the Regexp field in the NAPTR DNS Resource Record as 
-defined by RFC 2915.
+defined by RFC 2915 / RFC 3403 Section 4.
 
 It assumes that the data is in master file format and suitable for use in a ISC 
 BIND zone file.
@@ -387,6 +388,8 @@ will be interpolated!
 =head1 SEE ALSO
 
 RFC 2915 - L<https://tools.ietf.org/html/rfc2915>
+
+RFC 3403 - Obsoletes RFC 2915 - L<https://tools.ietf.org/html/rfc3403>
 
 =head1 AUTHOR
 
