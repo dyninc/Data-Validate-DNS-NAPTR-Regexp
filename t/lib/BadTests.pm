@@ -16,7 +16,6 @@ itestibobi		/Delimiter \(i\) cannot be a flag, digit or null$/
 \\test\\bob\\		/Delimiter \(\\\) cannot be a flag, digit or null$/
 ^test(cat)^bob\\2^	/More backrefs in replacement than captures in match$/
 ^test^bob^if		/Bad flag: f$/
-^tes(cat^bob^		/Bad regex: .+$/
 ^test^\\0^		/Bad backref '0'$/
 ^test\25a^bah^		/Bad escape sequence '\\25'$/
 ^test^\25b^		/Bad escape sequence '\\25'$/
