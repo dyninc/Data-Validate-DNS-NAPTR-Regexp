@@ -10,8 +10,6 @@ To install this module type the following:
    make test
    make install
 
-DEPENDENCIES
-
 COPYRIGHT AND LICENCE
 
 Copyright (C) 2013 Dyn, Inc.
