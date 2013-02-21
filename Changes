@@ -1,5 +1,9 @@
 {{$NEXT}}
 
+0.007 Thu, Feb 21, 2013
+
+  * Fix pod (auto-wrapping...)
+
 0.006 Thu, Feb 21, 2013
 
   * Remove reliance on regex.h for portability
